@@ -5,7 +5,10 @@ import cv2
 import matplotlib.pyplot as plt
 gt_path = 'data/part1/gt.json'
 images_path = 'data/part1/images'
+save_path = 'data/part1/results'
 
+if not os.path.isdir(save_path):
+    os.mkdir(save_path)
 
 # We extract the data from our json
 with open(gt_path) as f:
@@ -47,16 +50,17 @@ for ann in annotations:
         plt.subplot(2, 2, k+1)
         plt.axis('on')
         for channel, color in enumerate(colors): #range(3):
-            hist = cv2.calcHist([person], [channel], None, [histSize], histRange)
+            # hist = cv2.calcHist([person], [channel], None, [histSize], histRange)
+            hist, _ = np.histogram(person[:,:,channel], 255)
             plt.plot(hist, color)#colors[channel])
         plt.xlabel('Number of bins')
         plt.ylabel('Number of pixels')
-        # plt.legend(('Blue', 'Green', 'Red'))
+        plt.legend(('Blue', 'Green', 'Red'))
         k+=2
 
 
 
 #we save our results0
-plt.savefig(os.path.join(images_path, 'Ski histograms.jpg'))
+plt.savefig(os.path.join(save_path, 'Ski histograms.jpg'))
 
 plt.show()

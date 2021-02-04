@@ -5,9 +5,12 @@ import cv2
 import matplotlib.pyplot as plt
 gt_path = 'data/part1/gt.json'
 images_path = 'data/part1/images'
-IF_HSV = False
+IF_HSV = True
 
+save_path = 'data/part1/results'
 
+if not os.path.isdir(save_path):
+    os.mkdir(save_path)
 
 # We extract the data from our json
 with open(gt_path) as f:
@@ -50,6 +53,10 @@ for skate in skates:
                 hist = cv2.calcHist([person], [channel], None, [histSize], histRange)
                 plt.plot(hist, color)
                 
+            if IF_HSV:
+                plt.legend(('Hue', 'Saturation', 'Value'))
+            else:    
+                plt.legend(('Blue', 'Green', 'Red'))
 
             plt.axis('on')
             plt.xlabel('Number of bins')
@@ -60,8 +67,8 @@ for skate in skates:
 
 #we save our results
 if IF_HSV:
-    plt.savefig(os.path.join(images_path, 'Skate histograms HSV.jpg'))
+    plt.savefig(os.path.join(save_path, 'Skate histograms HSV.jpg'))
 else:
-    plt.savefig(os.path.join(images_path, 'Skate histograms RGB.jpg'))
+    plt.savefig(os.path.join(save_path, 'Skate histograms RGB.jpg'))
 
 plt.show()

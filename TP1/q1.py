@@ -5,6 +5,11 @@ import cv2
 
 gt_path = 'data/part1/gt.json'
 images_path = 'data/part1/images'
+save_path = 'data/part1/results'
+
+if not os.path.isdir(save_path):
+    os.mkdir(save_path)
+
 
 # images_names = [x.split('.')[0] for x in os.listdir(images_path)]
 images_names = os.listdir(images_path)
@@ -31,4 +36,4 @@ for image_name in images_names:
     cv2.imshow(name, img)
     cv2.waitKey(0)
     save_name = name + '_result.jpg'
-    cv2.imwrite(os.path.join(images_path, save_name), img)
+    cv2.imwrite(os.path.join(save_path, save_name), img)
